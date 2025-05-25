@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Upload, FileText, CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertTriangle, XCircle, Shield } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -42,7 +42,7 @@ const Index = () => {
       setFile(uploadedFile);
       toast({
         title: "File uploaded successfully",
-        description: `${uploadedFile.name} is ready for verification.`,
+        description: `${uploadedFile.name} is ready for analysis.`,
       });
     }
   };
@@ -58,7 +58,7 @@ const Index = () => {
       setFile(droppedFile);
       toast({
         title: "File uploaded successfully",
-        description: `${droppedFile.name} is ready for verification.`,
+        description: `${droppedFile.name} is ready for analysis.`,
       });
     }
   };
@@ -135,7 +135,7 @@ const Index = () => {
     if (!file && !textInput.trim()) {
       toast({
         title: "Input required",
-        description: "Please upload a certificate or enter text details.",
+        description: "Please upload documentation or enter internship details.",
         variant: "destructive"
       });
       return;
@@ -151,8 +151,8 @@ const Index = () => {
     setIsVerifying(false);
 
     toast({
-      title: "Verification complete",
-      description: `Certificate scored ${verificationResult.score}/100`,
+      title: "Analysis complete",
+      description: `Internship scored ${verificationResult.score}/100`,
     });
   };
 
@@ -185,12 +185,29 @@ const Index = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            CertiCheck AI
-          </h1>
+          <div className="flex items-center justify-center mb-4">
+            <Shield className="w-12 h-12 text-navy-400 mr-4" />
+            <h1 className="text-4xl md:text-6xl font-bold text-white">
+              InternGuard
+            </h1>
+          </div>
           <p className="text-xl text-navy-200 max-w-3xl mx-auto">
-            Advanced AI-powered verification system to detect fraudulent internship certificates and experiences
+            Advanced AI-powered detection system to identify fraudulent internship experiences and protect hiring integrity
           </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm text-navy-300">
+            <span className="flex items-center">
+              <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+              Company Verification
+            </span>
+            <span className="flex items-center">
+              <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+              Mentor Validation
+            </span>
+            <span className="flex items-center">
+              <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+              Experience Analysis
+            </span>
+          </div>
         </div>
 
         {!result ? (
@@ -198,16 +215,22 @@ const Index = () => {
           <div className="max-w-4xl mx-auto">
             <Card className="bg-white/10 backdrop-blur-sm border-navy-700">
               <CardHeader>
-                <CardTitle className="text-white text-2xl">Certificate Verification</CardTitle>
+                <CardTitle className="text-white text-2xl flex items-center">
+                  <Shield className="w-6 h-6 mr-2 text-navy-400" />
+                  Internship Experience Analysis
+                </CardTitle>
+                <p className="text-navy-300">
+                  Upload documents or enter details about the internship experience to verify its authenticity
+                </p>
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="upload" className="w-full">
                   <TabsList className="grid w-full grid-cols-2 bg-navy-800">
                     <TabsTrigger value="upload" className="text-navy-200 data-[state=active]:bg-navy-600 data-[state=active]:text-white">
-                      Upload Certificate
+                      Upload Documents
                     </TabsTrigger>
                     <TabsTrigger value="text" className="text-navy-200 data-[state=active]:bg-navy-600 data-[state=active]:text-white">
-                      Enter Details
+                      Enter Details Manually
                     </TabsTrigger>
                   </TabsList>
                   
@@ -220,10 +243,10 @@ const Index = () => {
                     >
                       <Upload className="w-16 h-16 text-navy-400 mx-auto mb-4" />
                       <p className="text-white text-lg mb-2">
-                        {file ? file.name : 'Drop your certificate here or click to browse'}
+                        {file ? file.name : 'Drop internship documents here or click to browse'}
                       </p>
                       <p className="text-navy-300 text-sm">
-                        Supports PDF, JPG, PNG files
+                        Supports certificates, offer letters, completion letters (PDF, JPG, PNG)
                       </p>
                       <input
                         id="fileInput"
@@ -238,7 +261,7 @@ const Index = () => {
                   <TabsContent value="text" className="mt-6">
                     <textarea
                       className="w-full h-48 p-4 bg-navy-800 text-white border border-navy-600 rounded-lg resize-none focus:outline-none focus:border-navy-500"
-                      placeholder="Enter internship details here...
+                      placeholder="Enter internship experience details here...
                       
 Example:
 Company: TechCorp Solutions
@@ -247,6 +270,9 @@ Role: Frontend Developer Intern
 Mentor: Sarah Johnson (sarah.johnson@techcorp.com)
 Domain: Web Development
 Technologies: React, JavaScript, CSS, Git
+Projects: Built responsive dashboard, Implemented user authentication
+Office Location: New York, NY
+Stipend: $1500/month
                       "
                       value={textInput}
                       onChange={(e) => setTextInput(e.target.value)}
@@ -263,12 +289,12 @@ Technologies: React, JavaScript, CSS, Git
                     {isVerifying ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                        Verifying...
+                        Analyzing Experience...
                       </>
                     ) : (
                       <>
-                        <FileText className="w-5 h-5 mr-2" />
-                        Verify Certificate
+                        <Shield className="w-5 h-5 mr-2" />
+                        Analyze Internship
                       </>
                     )}
                   </Button>
@@ -285,7 +311,7 @@ Technologies: React, JavaScript, CSS, Git
                 <CardHeader>
                   <CardTitle className="text-white text-xl flex items-center">
                     {getStatusIcon(result.status)}
-                    <span className="ml-2">Verification Score</span>
+                    <span className="ml-2">Authenticity Score</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -308,9 +334,9 @@ Technologies: React, JavaScript, CSS, Git
                       variant="outline" 
                       className={`${getStatusColor(result.status)} border-current text-lg px-4 py-2`}
                     >
-                      {result.status === 'genuine' && '✅ Likely Genuine'}
-                      {result.status === 'suspicious' && '⚠️ Suspicious'}
-                      {result.status === 'fake' && '❌ Likely Fake'}
+                      {result.status === 'genuine' && '✅ Likely Authentic'}
+                      {result.status === 'suspicious' && '⚠️ Requires Review'}
+                      {result.status === 'fake' && '❌ Likely Fraudulent'}
                     </Badge>
                   </div>
                 </CardContent>
@@ -319,7 +345,7 @@ Technologies: React, JavaScript, CSS, Git
               {/* Extracted Information */}
               <Card className="bg-white/10 backdrop-blur-sm border-navy-700">
                 <CardHeader>
-                  <CardTitle className="text-white text-xl">Extracted Information</CardTitle>
+                  <CardTitle className="text-white text-xl">Experience Details</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div>
@@ -335,7 +361,7 @@ Technologies: React, JavaScript, CSS, Git
                     <span className="text-white ml-2">{result.extractedInfo.duration}</span>
                   </div>
                   <div>
-                    <span className="text-navy-300">Mentor:</span>
+                    <span className="text-navy-300">Mentor/Supervisor:</span>
                     <span className="text-white ml-2">{result.extractedInfo.mentor}</span>
                   </div>
                   <div>
@@ -343,7 +369,7 @@ Technologies: React, JavaScript, CSS, Git
                     <span className="text-white ml-2">{result.extractedInfo.domain}</span>
                   </div>
                   <div>
-                    <span className="text-navy-300">Technologies:</span>
+                    <span className="text-navy-300">Technologies/Skills:</span>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {result.extractedInfo.technologies.map((tech, index) => (
                         <Badge key={index} variant="secondary" className="bg-navy-700 text-navy-200">
@@ -359,7 +385,7 @@ Technologies: React, JavaScript, CSS, Git
             {/* Detailed Checks */}
             <Card className="bg-white/10 backdrop-blur-sm border-navy-700 mt-8">
               <CardHeader>
-                <CardTitle className="text-white text-xl">Detailed Analysis</CardTitle>
+                <CardTitle className="text-white text-xl">Verification Analysis</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -368,35 +394,35 @@ Technologies: React, JavaScript, CSS, Git
                       <CheckCircle className="w-5 h-5 text-green-500" /> : 
                       <XCircle className="w-5 h-5 text-red-500" />
                     }
-                    <span className="text-white">Company Exists</span>
+                    <span className="text-white">Company Verification</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     {result.checks.domainMatch ? 
                       <CheckCircle className="w-5 h-5 text-green-500" /> : 
                       <XCircle className="w-5 h-5 text-red-500" />
                     }
-                    <span className="text-white">Domain Match</span>
+                    <span className="text-white">Domain Alignment</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     {result.checks.roleVerification ? 
                       <CheckCircle className="w-5 h-5 text-green-500" /> : 
                       <XCircle className="w-5 h-5 text-red-500" />
                     }
-                    <span className="text-white">Role Verification</span>
+                    <span className="text-white">Role Validation</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     {result.checks.mentorCheck ? 
                       <CheckCircle className="w-5 h-5 text-green-500" /> : 
                       <XCircle className="w-5 h-5 text-red-500" />
                     }
-                    <span className="text-white">Mentor Check</span>
+                    <span className="text-white">Mentor Verification</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     {result.checks.durationCheck ? 
                       <CheckCircle className="w-5 h-5 text-green-500" /> : 
                       <XCircle className="w-5 h-5 text-red-500" />
                     }
-                    <span className="text-white">Duration Check</span>
+                    <span className="text-white">Duration Analysis</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-5 h-5 flex items-center justify-center">
@@ -415,10 +441,10 @@ Technologies: React, JavaScript, CSS, Git
                 variant="outline"
                 className="border-navy-500 text-white hover:bg-navy-700"
               >
-                Verify Another Certificate
+                Analyze Another Experience
               </Button>
               <Button className="bg-navy-600 hover:bg-navy-500 text-white">
-                Download PDF Report
+                Download Analysis Report
               </Button>
             </div>
           </div>
