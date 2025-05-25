@@ -34,5 +34,3 @@ An AI-powered platform that detects potentially fake internship certificates or 
 
 ---
 
-## 📦 Folder Structure
-
